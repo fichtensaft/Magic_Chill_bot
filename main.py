@@ -1,4 +1,13 @@
 import logging
 
-from aiogram import Bot, Dispatcher, executor, types
+from aiogram import executor
+from loader import dp
 
+import handlers
+
+# Activation of logging
+logging.basicConfig(level=logging.INFO)
+
+# Activation of the bot polling
+if __name__ == '__main__':
+    executor.start_polling(dispatcher=dp, skip_updates=True)
