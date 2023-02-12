@@ -41,7 +41,7 @@ what_people_bts = [
     types.InlineKeyboardButton(text="Паша 🧟‍♂️", callback_data="people_Паша"),
     types.InlineKeyboardButton(text="Лёня 👷🏻‍♂️", callback_data="people_Лёня"),
     types.InlineKeyboardButton(text="Other...", callback_data="people_other"),
-    types.InlineKeyboardButton(text="End", callback_data="people_end")
+    types.InlineKeyboardButton(text="End 🎬", callback_data="people_end")
 ]
 
 what_people_kb.add(*what_people_bts)
