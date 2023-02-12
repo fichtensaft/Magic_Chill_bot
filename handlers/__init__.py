@@ -1,1 +1,3 @@
-from .cmds import text_cmds
+from . import cmds
+from . import replies
+from . import callbacks

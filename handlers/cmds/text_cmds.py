@@ -17,7 +17,7 @@ async def gay(message: types.Message) -> None:
     await message.answer("You're gay")
 
 
-@dp.message_handler()
-async def echo_gay(message: types.Message) -> None:
-    """Test-function for naming everyone gay"""
-    await message.answer("YOU ARE GAAAAAAY")
+# @dp.message_handler()
+# async def echo_gay(message: types.Message) -> None:
+#     """Test - !!!ECHO!!! - function for naming everyone gay"""
+#     await message.answer("YOU ARE GAAAAAAY")
