@@ -3,6 +3,7 @@ import logging
 from aiogram import executor
 from loader import dp
 
+# without this import handlers just don't work
 import handlers
 
 # Activation of logging

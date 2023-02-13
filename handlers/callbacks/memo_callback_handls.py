@@ -2,11 +2,22 @@ from main import dp
 from aiogram import types
 from aiogram.dispatcher.filters import Text
 
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
+
 from keyboards.inline import memo_kb_inlines
 
 
-# test list for people
 ppl_list = []
+
+
+class MemorizeDate(StatesGroup):
+    """FSM-class for MEMO-scenario"""
+    waiting_for_date = State()
+    waiting_for_place = State()
+    waiting_for_people = State()
+
+
 
 @dp.callback_query_handler(text="date_today")
 async def date_today(call: types.CallbackQuery) -> None:
