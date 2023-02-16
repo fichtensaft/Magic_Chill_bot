@@ -7,7 +7,6 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from keyboards.inline import memo_kb_inlines
 
-
 ppl_list = []
 
 
@@ -17,6 +16,11 @@ class MemorizeDate(StatesGroup):
     waiting_for_place = State()
     waiting_for_people = State()
 
+
+@dp.message_handler(Text(equals="Memorize an event 🗓️"))
+async def start_memorizing(message: types.Message) -> None:
+    """Function for starting the MEMORIZING-scenario"""
+    await message.answer(text="What's the day?", reply_markup=memo_kb_inlines.what_date_kb)
 
 
 @dp.callback_query_handler(text="date_today")
@@ -31,13 +35,25 @@ async def date_today(call: types.CallbackQuery) -> None:
 
 
 @dp.callback_query_handler(text="date_not_today")
-async def date_not_today(call: types.CallbackQuery) -> None:
+async def date_not_today(call: types.CallbackQuery, state: FSMContext) -> None:
     """
     Callback-handler for MEMO_PHASE_1:
-    If the user chooses to insert another day
+    If the user chooses to insert ANOTHER DAY
     """
-    await call.message.answer("!!!WORK IN PROGRESS!!!")
+    await call.message.answer("Введите дату форматом: дд мм гг (через пробел)")
+    await state.set_state(MemorizeDate.waiting_for_date.state)
     await call.answer()
+
+
+@dp.message_handler(state=MemorizeDate.waiting_for_date)
+async def enter_the_date(message: types.Message, state: FSMContext) -> None:
+    """
+    Handler for taking an input of data from user (MEMO_PHASE_1)
+    """
+
+    await message.answer("Got your place\nWho is with us today?",
+                         reply_markup=memo_kb_inlines.what_people_kb)
+    await state.finish()
 
 
 @dp.callback_query_handler(Text(startswith="place"))
@@ -66,6 +82,3 @@ async def which_people(call: types.CallbackQuery) -> None:
     if human not in ppl_list and human not in ["end", "other"]:
         ppl_list.append(human)
         await call.answer()
-
-
-

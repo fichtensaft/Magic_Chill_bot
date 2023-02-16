@@ -6,7 +6,7 @@ import datetime
 """Inline-keyboard for asking a today's date"""
 what_date_kb = types.InlineKeyboardMarkup(row_width=1)
 what_date_bts = [
-    types.InlineKeyboardButton(text=f"Is it today - {datetime.date.today().strftime('%d/%m/%y')}?",
+    types.InlineKeyboardButton(text=f"Is it today - {datetime.date.today().strftime('%d-%m-%y')}?",
                                callback_data='date_today'),
     types.InlineKeyboardButton(text="Some other day?",
                                callback_data="date_not_today")
@@ -41,6 +41,9 @@ what_people_bts = [
     types.InlineKeyboardButton(text="Диман 🧑‍🍳", callback_data="people_Диман"),
     types.InlineKeyboardButton(text="Паша 🧟‍♂️", callback_data="people_Паша"),
     types.InlineKeyboardButton(text="Лёня 👷🏻‍♂️", callback_data="people_Лёня"),
+    types.InlineKeyboardButton(text="Варя 🧝‍♀️", callback_data="people_Лёня"),
+    types.InlineKeyboardButton(text="Рита 👰‍♀️", callback_data="people_Лёня"),
+    types.InlineKeyboardButton(text="Мари 🙇‍♀️", callback_data="people_Лёня"),
     types.InlineKeyboardButton(text="Other...", callback_data="people_other"),
     types.InlineKeyboardButton(text="End 🎬", callback_data="people_end")
 ]
