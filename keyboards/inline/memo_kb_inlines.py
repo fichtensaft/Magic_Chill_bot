@@ -11,7 +11,6 @@ what_date_bts = [
     types.InlineKeyboardButton(text="Some other day?",
                                callback_data="date_not_today")
 ]
-
 what_date_kb.add(*what_date_bts)
 
 
@@ -27,25 +26,27 @@ what_place_bts = [
     types.InlineKeyboardButton(text="The forest 🌳", callback_data="place The forest"),
     types.InlineKeyboardButton(text="Other...", callback_data="other")
 ]
-
 what_place_kb.add(*what_place_bts)
 
 
 """Inline-keyboard for the present people"""
 what_people_kb = types.InlineKeyboardMarkup(row_width=3)
 what_people_bts = [
-    types.InlineKeyboardButton(text="Иля 🧙‍♂️", callback_data="people_Иля"),
-    types.InlineKeyboardButton(text="Кирилл 🕵️", callback_data="people_Кирилл"),
-    types.InlineKeyboardButton(text="Потап 👨‍🏭", callback_data="people_Потап"),
-    types.InlineKeyboardButton(text="Олегсий 👨‍🌾", callback_data="people_Олегсий"),
+    types.InlineKeyboardButton(text="➖ Иля 🧙‍♂️", callback_data="people_Иля"),
+    types.InlineKeyboardButton(text="➖ Кирилл 🕵️", callback_data="people_Кирилл"),
+    types.InlineKeyboardButton(text="➖ Потап 👨‍🏭", callback_data="people_Потап"),
+    types.InlineKeyboardButton(text="Лёха 👨‍🌾", callback_data="people_Лёха"),
     types.InlineKeyboardButton(text="Диман 🧑‍🍳", callback_data="people_Диман"),
     types.InlineKeyboardButton(text="Паша 🧟‍♂️", callback_data="people_Паша"),
     types.InlineKeyboardButton(text="Лёня 👷🏻‍♂️", callback_data="people_Лёня"),
-    types.InlineKeyboardButton(text="Варя 🧝‍♀️", callback_data="people_Лёня"),
-    types.InlineKeyboardButton(text="Рита 👰‍♀️", callback_data="people_Лёня"),
-    types.InlineKeyboardButton(text="Мари 🙇‍♀️", callback_data="people_Лёня"),
+    types.InlineKeyboardButton(text="Варя 🧝‍♀️", callback_data="people_Варя"),
+    types.InlineKeyboardButton(text="Рита 👰‍♀️", callback_data="people_Рита"),
+    types.InlineKeyboardButton(text="Мари 🙇‍♀️", callback_data="people_Мари"),
     types.InlineKeyboardButton(text="Other...", callback_data="people_other"),
     types.InlineKeyboardButton(text="End 🎬", callback_data="people_end")
 ]
-
 what_people_kb.add(*what_people_bts)
+
+# print(what_people_bts[0])
+# what_people_bts[0]['text'] = ''.join(list(what_people_bts[0]['text']).insert(0, '✅'))
+# print(what_people_bts[0])

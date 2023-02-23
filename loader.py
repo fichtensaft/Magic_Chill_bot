@@ -1,6 +1,8 @@
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
+from aiogram_dialog import DialogRegistry
+
 from os import getenv
 from sys import exit
 
@@ -13,7 +15,9 @@ if not bot_token:
 # Right now only for RAM
 storage = MemoryStorage()
 
-
 # Making the bot-object and his dispatcher
-bot = Bot(token=bot_token, parse_mode=types.ParseMode.HTML)
+bot = Bot(token=bot_token)
 dp = Dispatcher(bot=bot, storage=storage)
+
+# Creating a register to... register Dialogs for lib: "aiogram-dialog"
+registry = DialogRegistry(dp)

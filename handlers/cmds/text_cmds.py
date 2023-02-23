@@ -14,7 +14,8 @@ async def start(message: types.Message) -> None:
 @dp.message_handler(commands='gay')
 async def gay(message: types.Message) -> None:
     """Test-function for saying that you're gay if you enter the specific command"""
-    await message.answer("You're gay")
+    print('gay is printing')
+    await message.answer("you're gay")
 
 
 # @dp.message_handler()
