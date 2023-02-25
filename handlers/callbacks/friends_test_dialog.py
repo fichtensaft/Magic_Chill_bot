@@ -106,5 +106,3 @@ registry.register(friends_dialog)
 @dp.message_handler(commands="friends")
 async def friends_cmd(message: types.Message, dialog_manager: DialogManager) -> None:
     await dialog_manager.start(state=FriendsStates.main, mode=StartMode.RESET_STACK)
-
-

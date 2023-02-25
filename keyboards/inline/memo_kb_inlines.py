@@ -1,5 +1,9 @@
 from aiogram import types
 
+from aiogram_dialog import Window
+from aiogram_dialog.widgets.kbd import Button, Multiselect, Column, Row, Group, Cancel
+from aiogram_dialog.widgets.text import Const, Format
+
 import datetime
 
 
@@ -46,7 +50,3 @@ what_people_bts = [
     types.InlineKeyboardButton(text="End 🎬", callback_data="people_end")
 ]
 what_people_kb.add(*what_people_bts)
-
-# print(what_people_bts[0])
-# what_people_bts[0]['text'] = ''.join(list(what_people_bts[0]['text']).insert(0, '✅'))
-# print(what_people_bts[0])
