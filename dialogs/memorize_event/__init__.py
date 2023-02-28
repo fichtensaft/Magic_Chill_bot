@@ -1,2 +1,4 @@
 from . import memo_test
-from . import memo_date
+from . import dialogs
+from . import getters
+from . import handlers

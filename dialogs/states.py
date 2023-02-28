@@ -8,7 +8,8 @@ class MemorizeEvent(StatesGroup):
     """
     date = State()
     place = State()
-    people = State()
+    friends = State()
     state = State()
     memes = State()
+
 
