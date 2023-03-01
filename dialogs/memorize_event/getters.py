@@ -20,11 +20,10 @@ async def places_getter(**kwargs) -> dict:
     places = [("Quarry 🦫🪨", "Иля"),
               ("Shaman hut 🛖", "Кирилл"),
               ("CyberFactory 🏭", "Потап"),
-              ("Casa grande 🦄", "Лёха"),
-              ("Po-Lounge ⚙", "Диман"),
               ("Le Garage 🏴‍☠", "Паша"),
+              ("Po-Lounge ⚙", "Диман"),
+              ("Cat Kingdom 🐈🐈‍⬛🐈", "Лёха"),
               ("The forest 🌳", "Лёня"),
-              ("Other 🌋...", "Атолл"),
               ]
 
     places_dict = {

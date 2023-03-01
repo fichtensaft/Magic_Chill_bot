@@ -7,8 +7,14 @@ class MemorizeEvent(StatesGroup):
     For aiogram-dialogs also
     """
     date = State()
-    place = State()
+    date_input = State()
+
+    places = State()
+    places_input = State()
+
     friends = State()
+    friends_input = State()
+
     state = State()
     memes = State()
 

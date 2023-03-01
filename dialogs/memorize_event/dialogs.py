@@ -3,6 +3,7 @@ import operator
 from aiogram_dialog import Window, Dialog
 from aiogram_dialog.widgets.kbd import Button, Column, Group, Select, Multiselect
 from aiogram_dialog.widgets.text import Const, Format
+from aiogram_dialog.widgets.input import TextInput
 
 from loader import registry
 from dialogs.states import MemorizeEvent
@@ -16,12 +17,33 @@ Window for the 'Date' part of Memo-dialog
 date_window = Window(
     Const("Когда собирались?"),
     Column(
-        Button(Format("Сегодня - {date_today}?"),
-               id="is_today",
-               on_click=handlers.next_state),
-        Button(Const("Было в другой день"), id="not_today")),
+        Button(
+            Format("Сегодня - {date_today}?"),
+            id="is_today",
+            on_click=handlers.to_places
+        ),
+        Button(
+            Const("Было в другой день"),
+            id="not_today",
+            on_click=handlers.next_state
+        )
+    ),
     getter=getters.date_getter,
     state=MemorizeEvent.date
+)
+
+"""
+Window for the inputting your own date 
+"""
+date_input_window = Window(
+    Const("Тогда нужна дата формата - день месяц год (через пробел):"),
+    TextInput(
+        id="date_input_text",
+        type_factory=handlers.date_validation,
+        on_success=handlers.date_success,
+        on_error=handlers.date_failure
+    ),
+    state=MemorizeEvent.date_input
 )
 
 """
@@ -33,17 +55,22 @@ places_kb = Select(
     id="place_kb",
     item_id_getter=operator.itemgetter(1),
     items="places",
-    on_click=handlers.next_state  # The error in author's typehints?
+    on_click=handlers.next_state  # The error in aiogram_dialog author's typehints?
 )
+
 
 places_window = Window(
     Const("Где мы собирались?"),
     Group(
         places_kb,
+        Button(
+            Const("Another 🌋..."),
+            id="another_place"
+        ),
         width=2
     ),
     getter=getters.places_getter,
-    state=MemorizeEvent.place
+    state=MemorizeEvent.places
 )
 
 """
@@ -68,7 +95,7 @@ friends_kb_options = Group(
     Button(
         Const("That's all"),
         id="friends_end",
-        on_click=handlers.retrieve_friends_data
+        on_click=handlers.get_friends_data
     )
 )
 
@@ -85,7 +112,48 @@ friends_window = Window(
 )
 
 """
+Creating the state part of Memo-dialog
+"""
+state_window = Window(
+    Const("В каком же вы состоянии, Херрен?"),
+    Column(
+        Button(
+            Const("Sober 🧖‍♂️☕️🥒"),
+            id="sober",
+            on_click=handlers.next_state
+        ),
+        Button(
+            Const("Drunk 🍺🗿💨"),
+            id="drunk",
+            on_click=handlers.next_state
+        ),
+    ),
+    state=MemorizeEvent.state
+)
+
+"""
+Creating the last - Memes part of Memo-dialog
+"""
+memes_window = Window(
+    Const("Что по кекам?"),
+    TextInput(
+        id="memes_input_text",
+        type_factory=str,
+        on_success=handlers.memes_success
+    ),
+    state=MemorizeEvent.memes
+)
+
+"""
 Registration of Memo-dialog
 """
-memorize_dialog = Dialog(*[date_window, places_window, friends_window])
+memorize_windows = [
+    date_window,
+    date_input_window,
+    places_window,
+    friends_window,
+    state_window,
+    memes_window
+]
+memorize_dialog = Dialog(*memorize_windows)
 registry.register(memorize_dialog)
