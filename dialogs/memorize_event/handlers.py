@@ -19,7 +19,7 @@ async def start_memorizing(message: types.Message, dialog_manager: DialogManager
     await dialog_manager.start(state=MemorizeEvent.date, mode=StartMode.RESET_STACK)
 
 
-# The 'input_date' part of Memo-dialog handlers:
+# The 'date_input' part of Memo-dialog handlers:
 def date_validation(user_date: str, date_format='%d %m %y') -> None:
     """
     Function to check if the user date is correct
@@ -42,6 +42,28 @@ async def date_failure(message: types.Message, enter: TextInput, dialog_manager:
     await message.answer(text="Введённая формат даты неверен. Повторите, пожалуйста-с")
 
 
+# The 'places_input' part of Memo-dialog handlers:
+
+async def place_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
+    """Takes another place from the user's input"""
+    await message.answer(text="Интересное местечко")
+    await dialog_manager.dialog().next()
+
+
+# The 'friends_input' part of Memo-dialog handlers:
+
+async def friends_input_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
+    """On Friends TextInput success (should be always, though)"""
+    widget=dialog_manager.dialog().find("friends_input_text")
+    data = widget.get_value().split(';')
+
+    for i in data:
+        print(i, end=' --> ')
+
+    await message.answer("Прекрасные люди. Давай дальше")
+    await dialog_manager.dialog().next()
+
+
 # The 'memes' part of Memo-dialog handlers
 async def memes_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
     widget = dialog_manager.dialog().find("memes_input_text")
@@ -59,13 +81,18 @@ async def next_state(callback: types.CallbackQuery, button: Button, dialog_manag
     await dialog_manager.dialog().next()
 
 
-async def to_places(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
+async def date_to_places(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
     """Switching to the Places phase of the Memo-dialog"""
     await dialog_manager.dialog().switch_to(MemorizeEvent.places)
 
 
+async def places_to_friends(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
+    """Switching to the Friends phase of the Memo-dialog (after choosing any given place)"""
+    await dialog_manager.dialog().switch_to(MemorizeEvent.friends)
+
+
 # Getting data from widgets handlers
-async def get_friends_data(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
+async def friends_to_state(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
     """
     Function for retrieving data from Widget(Window) - MultiSelector of Friends part of Memo-dialog
     // Right now it just prints it into the console
@@ -74,7 +101,7 @@ async def get_friends_data(callback: types.CallbackQuery, button: Button, dialog
     data = widget.get_checked()
     print(data)
 
-    await dialog_manager.dialog().next()
+    await dialog_manager.dialog().switch_to(MemorizeEvent.state)
 
 
 

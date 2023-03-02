@@ -20,7 +20,7 @@ date_window = Window(
         Button(
             Format("Сегодня - {date_today}?"),
             id="is_today",
-            on_click=handlers.to_places
+            on_click=handlers.date_to_places
         ),
         Button(
             Const("Было в другой день"),
@@ -55,7 +55,7 @@ places_kb = Select(
     id="place_kb",
     item_id_getter=operator.itemgetter(1),
     items="places",
-    on_click=handlers.next_state  # The error in aiogram_dialog author's typehints?
+    on_click=handlers.places_to_friends  # The error in aiogram_dialog author's typehints?
 )
 
 
@@ -65,13 +65,28 @@ places_window = Window(
         places_kb,
         Button(
             Const("Another 🌋..."),
-            id="another_place"
+            id="another_place",
+            on_click=handlers.next_state
         ),
         width=2
     ),
     getter=getters.places_getter,
     state=MemorizeEvent.places
 )
+
+
+"""
+Window for the  inputting your own place 
+"""
+places_input_window = Window(
+    Const("Где же собирались? Введите место, пожольста:"),
+    TextInput(
+        id="place_input_tex",
+        on_success=handlers.place_success,
+    ),
+    state=MemorizeEvent.places_input
+)
+
 
 """
 Window for the 'Friends' part of Memo-dialog
@@ -90,12 +105,12 @@ friends_kb_options = Group(
     Button(
         Const("Some others"),
         id="friends_others",
-        # on_click=
+        on_click=handlers.next_state
     ),
     Button(
         Const("That's all"),
         id="friends_end",
-        on_click=handlers.get_friends_data
+        on_click=handlers.friends_to_state
     )
 )
 
@@ -109,6 +124,20 @@ friends_window = Window(
     ),
     getter=getters.get_friends,
     state=MemorizeEvent.friends
+)
+
+"""
+Creating of the friends_input part of the dialog
+"""
+friends_input_window = Window(
+    Const("И кто эти чумбас? Введи через ';', будь лапочкой:"),
+    TextInput(
+        id="friends_input_text",
+        type_factory=str,
+        on_success=handlers.friends_input_success,
+        # on_error=
+    ),
+    state=MemorizeEvent.friends_input
 )
 
 """
@@ -151,7 +180,9 @@ memorize_windows = [
     date_window,
     date_input_window,
     places_window,
+    places_input_window,
     friends_window,
+    friends_input_window,
     state_window,
     memes_window
 ]
