@@ -52,7 +52,7 @@ Window for the 'Places' part of Memo-dialog
 
 places_kb = Select(
     Format("{item[0]}"),
-    id="place_kb",
+    id="places_kb",
     item_id_getter=operator.itemgetter(1),
     items="places",
     on_click=handlers.places_to_friends  # The error in aiogram_dialog author's typehints?

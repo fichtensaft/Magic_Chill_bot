@@ -4,7 +4,6 @@ from aiogram import executor
 from loader import dp
 
 # without this import handlers, dialog, etc. just don't work
-import handlers
 import dialogs
 
 # Activation of logging

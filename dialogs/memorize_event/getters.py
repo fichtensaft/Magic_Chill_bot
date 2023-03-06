@@ -17,13 +17,13 @@ async def places_getter(**kwargs) -> dict:
     :return: dict. The dictionary is a tuple (place - id) -> (items in web-docs)
              Though 'count' can be deleted, it used in web-docs for... counting items. Should leave it this way
     """
-    places = [("Quarry 🦫🪨", "Иля"),
-              ("Shaman hut 🛖", "Кирилл"),
-              ("CyberFactory 🏭", "Потап"),
-              ("Le Garage 🏴‍☠", "Паша"),
-              ("Po-Lounge ⚙", "Диман"),
-              ("Cat Kingdom 🐈🐈‍⬛🐈", "Лёха"),
-              ("The forest 🌳", "Лёня"),
+    places = [("Каменоломня 🦫🪨", "Каменоломня"),
+              ("le Garage 🏴‍☠", "le Garage"),
+              ("Хижина шамана 🛖", "Хижина шамана"),
+              ("Po-Lounge ⚙", "Po-Lounge"),
+              ("КиберЗавод 🏭", "КиберЗавод"),
+              ("Cat Kingdom 🐈🐈‍⬛🐈", "Cat Kingdom"),
+              ("The Forest 🌳", "The Forest"),
               ]
 
     places_dict = {
