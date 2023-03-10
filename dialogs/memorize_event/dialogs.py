@@ -10,6 +10,7 @@ from dialogs.states import MemorizeEvent
 from dialogs.memorize_event import getters
 from dialogs.memorize_event import handlers
 
+
 # Creating a 'Memorize_Event Dialog' and its Windows, etc.
 """
 Window for the 'Date' part of Memo-dialog
@@ -81,7 +82,7 @@ Window for the  inputting your own place
 places_input_window = Window(
     Const("Где же собирались? Введите место, пожольста:"),
     TextInput(
-        id="place_input_tex",
+        id="place_input_text",
         on_success=handlers.place_success,
     ),
     state=MemorizeEvent.places_input
@@ -89,7 +90,7 @@ places_input_window = Window(
 
 
 """
-Window for the 'Friends' part of Memo-dialog
+Windows for the 'Friends' part of Memo-dialog
 """
 # Keyboard for people to choose from
 friends_kb_ppl = Multiselect(
@@ -105,7 +106,7 @@ friends_kb_options = Group(
     Button(
         Const("Some others"),
         id="friends_others",
-        on_click=handlers.next_state
+        on_click=handlers.friends_to_input
     ),
     Button(
         Const("That's all"),
@@ -149,12 +150,12 @@ state_window = Window(
         Button(
             Const("Sober 🧖‍♂️☕️🥒"),
             id="sober",
-            on_click=handlers.next_state
+            on_click=handlers.state_to_memes
         ),
         Button(
             Const("Drunk 🍺🗿💨"),
             id="drunk",
-            on_click=handlers.next_state
+            on_click=handlers.state_to_memes
         ),
     ),
     state=MemorizeEvent.state

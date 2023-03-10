@@ -40,18 +40,28 @@ class BotDB:
         drop_req = """DROP TABLE events"""
         self.execute(drop_req)
 
-    def insert_user_id(self, user_id):
-        user_id_req = """INSERT INTO events(user_id) VALUES (?)"""
-        self.execute(user_id_req, (user_id, ))
+    def insert_memo_values(self, *args: str):
+        """
 
-        event_id = self.get_event_id()
-        return event_id
-
-    def insert_date(self, cur_date, event_id):
-        date_req = """INSERT INTO events(date_column) VALUES (?) WHERE event_id = ?"""
-        self.execute(date_req, (cur_date, event_id))
+        :param args:
+        :return:
+        """
+        sql_req = """INSERT INTO events(user_id, number, date, places, people, state, memes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)"""
+        self.execute(sql_req, args)
 
     # Testing site
+    def get_new_event_number(self, user_id):
+        sql_req = """SELECT number FROM events WHERE user_id =(?) ORDER BY number DESC"""
+        self.execute(sql_req, (user_id, ))
+        result = self.cur.fetchone()
+        event_num = result[0]
+
+        if event_num:
+            return event_num+1
+        else:
+            return 0
+
     def check_numbers(self, user_id):
         sql_check_req = """SELECT number_column FROM events WHERE user_id = (?)"""
         self.execute(sql_check_req, (user_id, ))
@@ -71,10 +81,3 @@ class BotDB:
 
         else:
             self.execute("""INSERT INTO events(number_column) VALUES (1)""")
-
-    def get_event_id(self):
-        self.execute("""SELECT event_id FROM events ORDER BY event_id DESC LIMIT 1""")
-        event_id = self.cur.fetchone()
-        print("Event id:", event_id[0])
-
-        return event_id[0]
