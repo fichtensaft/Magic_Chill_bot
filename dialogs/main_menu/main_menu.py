@@ -14,6 +14,6 @@ main_menu_keyboard.add(*main_menu_buttons)
 @dp.message_handler(commands='start')
 async def start(message: types.Message) -> None:
     """Function for the activation of the Chill Bot"""
-    await message.answer("Hey, I'm working now! Wanna some magic chilling?",
+    await message.answer("Hey, choomba! Wanna some magic chilling?",
                          reply_markup=main_menu_keyboard)
 

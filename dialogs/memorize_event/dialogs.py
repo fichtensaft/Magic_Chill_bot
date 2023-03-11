@@ -16,15 +16,15 @@ from dialogs.memorize_event import handlers
 Window for the 'Date' part of Memo-dialog
 """
 date_window = Window(
-    Const("Когда собирались?"),
+    Const("When was the day?"),
     Column(
         Button(
-            Format("Сегодня - {date_today}?"),
+            Format("Today - {date_today}?"),
             id="is_today",
             on_click=handlers.date_to_places
         ),
         Button(
-            Const("Было в другой день"),
+            Const("Another day"),
             id="not_today",
             on_click=handlers.next_state
         )
@@ -37,7 +37,7 @@ date_window = Window(
 Window for the inputting your own date 
 """
 date_input_window = Window(
-    Const("Тогда нужна дата формата - день месяц год (через пробел):"),
+    Const("Enter the date in the format - 'day month year' (separated by spaces):"),
     TextInput(
         id="date_input_text",
         type_factory=handlers.date_validation,
@@ -61,7 +61,7 @@ places_kb = Select(
 
 
 places_window = Window(
-    Const("Где мы собирались?"),
+    Const("Where were we?"),
     Group(
         places_kb,
         Button(
@@ -80,7 +80,7 @@ places_window = Window(
 Window for the  inputting your own place 
 """
 places_input_window = Window(
-    Const("Где же собирались? Введите место, пожольста:"),
+    Const("Then where were you? Enter the place, pretty please:"),
     TextInput(
         id="place_input_text",
         on_success=handlers.place_success,
@@ -117,7 +117,7 @@ friends_kb_options = Group(
 
 # Creating of the friends_window itself
 friends_window = Window(
-    Const("Who was with us?"),
+    Const("Who were there in such a magical day?"),
     Group(
         friends_kb_ppl,
         friends_kb_options,
@@ -131,7 +131,7 @@ friends_window = Window(
 Creating of the friends_input part of the dialog
 """
 friends_input_window = Window(
-    Const("И кто эти чумбас? Введи через ';', будь лапочкой:"),
+    Const("Who else? Enter their names separated by ';', lad:"),
     TextInput(
         id="friends_input_text",
         type_factory=str,
@@ -145,7 +145,7 @@ friends_input_window = Window(
 Creating the state part of Memo-dialog
 """
 state_window = Window(
-    Const("В каком же вы состоянии, Херрен?"),
+    Const("What's with your head, choom?"),
     Column(
         Button(
             Const("Sober 🧖‍♂️☕️🥒"),
@@ -165,7 +165,7 @@ state_window = Window(
 Creating the last - Memes part of Memo-dialog
 """
 memes_window = Window(
-    Const("Что по кекам?"),
+    Const("Что по кекам?\n(каждый кек с новой строки, на конце , или ;)"),
     TextInput(
         id="memes_input_text",
         type_factory=str,

@@ -45,13 +45,13 @@ async def date_success(message: types.Message, enter: TextInput, dialog_manager:
     converted_date = strftime("%Y-%m-%d", date_from_user)
     dialog_manager.current_context().dialog_data["date"] = converted_date
 
-    await message.answer(text="Отлично, идём дальше!")
+    await message.answer(text="Great, moving on!")
     await dialog_manager.dialog().next()
 
 
 async def date_failure(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
     """If the date_input is invalid, the user has to input date again"""
-    await message.answer(text="Введённая формат даты неверен. Повторите, пожалуйста-с")
+    await message.answer(text="The format of date is incorrect. Please try again")
 
 
 # The 'places' part of Memo-dialog handlers:
@@ -69,7 +69,7 @@ async def place_success(message: types.Message, enter: TextInput, dialog_manager
     user_place = place_input_widget.get_value()
     dialog_manager.current_context().dialog_data["place"] = user_place
 
-    await message.answer(text="Интересное местечко")
+    await message.answer(text="What an interesting place!")
     await dialog_manager.dialog().next()
 
 
@@ -81,6 +81,7 @@ async def friends_to_state(callback: types.CallbackQuery, button: Button, dialog
     """
     multi_friends_widget = dialog_manager.dialog().find("multi_friends")
     multi_friends_data = multi_friends_widget.get_checked()
+    print(multi_friends_data)
     dialog_manager.current_context().dialog_data["friends"] = multi_friends_data
 
     await dialog_manager.dialog().switch_to(MemorizeEvent.state)
@@ -104,7 +105,7 @@ async def friends_input_success(message: types.Message, enter: TextInput, dialog
 
     dialog_manager.current_context().dialog_data["friends"].extend(other_friends)
 
-    await message.answer("Прекрасные люди. Давай дальше")
+    await message.answer("Beautiful people! Let's continue")
     await dialog_manager.dialog().next()
 
 
@@ -121,16 +122,16 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
     memes_widget = dialog_manager.dialog().find("memes_input_text")  # Getting data from user's input
     memes_data = memes_widget.get_value()
     dialog_manager.current_context().dialog_data["memes"] = memes_data
-    # print(*dialog_manager.current_context().dialog_data.values())
 
-    dialog_manager.current_context().dialog_data["friends"] = " ;".join(
+    dialog_manager.current_context().dialog_data["friends"] = "; ".join(
         dialog_manager.current_context().dialog_data.get("friends")
     )
     data = dialog_manager.current_context().dialog_data.values()
-    print(*dialog_manager.current_context().dialog_data.values())
 
     with BotDB() as db:
-        db.insert_memo_values(message.from_user.id, db.get_new_event_number(message.from_user.id), *data)
+        db.insert_memo_values(message.from_user.id,
+                              db.get_new_event_number(message.from_user.id),
+                              *data)
 
     await message.answer("Как кекно")
     await dialog_manager.done()
