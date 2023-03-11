@@ -46,7 +46,7 @@ class BotDB:
         self.execute(sql_req, args)
 
     def get_new_event_number(self, user_id):
-        sql_req = """SELECT number FROM events WHERE user_id =(?) ORDER BY number DESC"""
+        sql_req = """SELECT number FROM events WHERE user_id =(?) ORDER BY number DESC LIMIT 1"""
         self.execute(sql_req, (user_id, ))
         result = self.cur.fetchone()
         if result:
@@ -55,3 +55,5 @@ class BotDB:
             return 1
 
     # test_zone
+    def fetch_dates(self, user_id):
+        sql_req = """SELECT date FROM events WHERE user_id"""

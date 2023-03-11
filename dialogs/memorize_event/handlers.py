@@ -77,11 +77,9 @@ async def place_success(message: types.Message, enter: TextInput, dialog_manager
 async def friends_to_state(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
     """
     Function for retrieving data from Widget(Window) - MultiSelector of Friends part of Memo-dialog
-    // Right now it just prints it into the console
     """
     multi_friends_widget = dialog_manager.dialog().find("multi_friends")
     multi_friends_data = multi_friends_widget.get_checked()
-    print(multi_friends_data)
     dialog_manager.current_context().dialog_data["friends"] = multi_friends_data
 
     await dialog_manager.dialog().switch_to(MemorizeEvent.state)
