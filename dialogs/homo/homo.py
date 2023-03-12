@@ -2,6 +2,7 @@ from aiogram import types
 
 from main import dp
 from database.bot_db import BotDB
+from dialogs import states
 
 
 @dp.message_handler(commands='gay')

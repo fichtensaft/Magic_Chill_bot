@@ -17,3 +17,8 @@ class MemorizeEvent(StatesGroup):
 
     state = State()
     memes = State()
+
+
+class RememberEvent(StatesGroup):
+    event_dates = State()
+    the_event = State()

@@ -55,5 +55,14 @@ class BotDB:
             return 1
 
     # test_zone
-    def fetch_dates(self, user_id):
-        sql_req = """SELECT date FROM events WHERE user_id"""
+    def get_dates(self, user_id):
+        sql_req = """SELECT date FROM events WHERE user_id=(?)"""
+        self.execute(sql_req, (user_id, ))
+        all_dates = self.cur.fetchall()
+        return all_dates
+
+    def get_day_info(self, user_id, number):
+        sql_req = """SELECT * FROM events WHERE user_id=(?) AND number=(?)"""
+        self.execute(sql_req, (user_id, number))
+        day_info = self.cur.fetchone()
+        return day_info
