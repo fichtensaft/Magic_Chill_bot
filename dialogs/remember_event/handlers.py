@@ -16,16 +16,11 @@ async def start_remembering(message: types.Message, dialog_manager: DialogManage
     await dialog_manager.start(state=RememberEvent.choose_state, mode=StartMode.RESET_STACK, data=message.from_user.id)
 
 
-async def choose_to_all_dates(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
-                              *args) -> None:
-    await dialog_manager.dialog().switch_to(RememberEvent.all_event_dates)
-
-
-async def choose_to_state_dates(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
-                                *args) -> None:
+async def choose_to_dates(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                          *args) -> None:
     state = callback.data.lstrip("fetch_")
     dialog_manager.current_context().dialog_data["state"] = state
-    await dialog_manager.dialog().switch_to(RememberEvent.by_state_event_dates)
+    await dialog_manager.dialog().switch_to(RememberEvent.event_dates)
 
 
 async def dates_to_the_event(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
@@ -40,4 +35,3 @@ async def dates_to_the_event(callback: types.CallbackQuery, button: Button, dial
     # print(dialog_manager.current_context().dialog_data["date"])
 
     await dialog_manager.dialog().switch_to(RememberEvent.the_event)
-

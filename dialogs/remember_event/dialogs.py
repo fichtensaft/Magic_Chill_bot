@@ -20,45 +20,24 @@ choose_state_window = Window(
         Button(
             Const("Sober 🧘‍♀️🌲🪐"),
             id="fetch_sober",
-            on_click=handlers.choose_to_state_dates,
+            on_click=handlers.choose_to_dates,
         ),
         Button(
             Const("Drunk 🍻🤙🪨"),
             id="fetch_drunk",
-            on_click=handlers.choose_to_state_dates,
+            on_click=handlers.choose_to_dates,
 
         ),
         Button(
             Const("Sober&Drunk 🚀"),
             id="fetch_both",
-            on_click=handlers.choose_to_all_dates,
+            on_click=handlers.choose_to_dates,
 
         ),
     ),
     state=RememberEvent.choose_state
 )
 
-"""
-Window to show event days - depending on the state
-"""
-by_state_event_dates_window = Window(
-    Const("Choose the day to remember:"),
-    ScrollingGroup(
-        Select(
-            Format("{item[0]}"),
-            id="event_dates_kb",
-            item_id_getter=operator.itemgetter(1),
-            items="dates",
-            on_click=handlers.dates_to_the_event
-        ),
-        id="event_dates_scroll",
-        width=4,
-        height=5
-
-    ),
-    state=RememberEvent.by_state_event_dates,
-    getter=getters.dates_by_state_getter
-)
 
 """
 Window to show all event days - regardless of the state
@@ -79,8 +58,8 @@ all_event_dates_window = Window(
         height=5
 
     ),
-    state=RememberEvent.all_event_dates,
-    getter=getters.all_dates_getter
+    state=RememberEvent.event_dates,
+    getter=getters.dates_getter
 )
 
 """
@@ -99,7 +78,6 @@ the_event_window = Window(
 """Registration of the Remember-Dialog windows"""
 remembering_windows = [
     choose_state_window,
-    by_state_event_dates_window,
     all_event_dates_window,
     the_event_window
 ]
