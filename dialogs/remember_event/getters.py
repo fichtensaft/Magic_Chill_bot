@@ -40,10 +40,13 @@ async def event_info_getter(dialog_manager: DialogManager, **kwargs) -> dict:
         event_info = db.get_event_by_day(user_id=dialog_manager.current_context().start_data,
                                          date=dialog_manager.current_context().dialog_data["event_date"])
 
+    event_info_list = list(event_info)
+    event_info_list[1] = strftime("%d-%m-%Y, %A", strptime(event_info_list[1], "%Y-%m-%d"))
+
     event_info_dict = {
-        "event_info": event_info,
+        "event_info": event_info_list,
         "count": len(event_info)
     }
 
-    print(event_info_dict)
+    print(event_info_dict["event_info"])
     return event_info_dict

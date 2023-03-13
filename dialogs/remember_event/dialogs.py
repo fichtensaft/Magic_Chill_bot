@@ -1,5 +1,7 @@
 import operator
 
+from aiogram.types import ParseMode
+
 from aiogram_dialog import Window, Dialog
 from aiogram_dialog.widgets.kbd import Button, Column, Group, Select, Multiselect, ScrollingGroup
 from aiogram_dialog.widgets.text import Const, Format, Jinja
@@ -63,12 +65,20 @@ all_event_dates_window = Window(
 """
 Window to look into the exact event
 """
-
+# We get the tuple like: (5, '2023-03-11', 'drunk', 'Иля; Потап', 'Po-Lounge', 'Оксид алюминия (химические реакции, термит); \nМне срут на лицо (journey 💩) - Гражданская Оборона; \nМикроконтроллеры')
 the_event_window = Window(
-    Format("Hello, brother - {event_info}"),
-    # Const("Bubba"),
+    Format(
+        "<b>Number of event</b>: {event_info[0]}\n"
+        "<b>Date</b>: {event_info[1]}\n"
+        "<b>State</b>: {event_info[2]}\n"
+        "<b>Place</b>: {event_info[4]}\n"
+        "<b>People</b>: {event_info[3]}\n"
+        "<b>Memes</b>:\n"
+        "{event_info[5]}"
+    ),
     state=RememberEvent.the_event,
-    getter=getters.event_info_getter
+    getter=getters.event_info_getter,
+    parse_mode=ParseMode.HTML
 
 )
 
