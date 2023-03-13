@@ -1,6 +1,3 @@
-from time import strptime, strftime
-from datetime import date
-
 from aiogram import types
 from aiogram.dispatcher.filters import Text
 
@@ -15,29 +12,32 @@ from dialogs.states import RememberEvent
 
 @dp.message_handler(Text(equals="Remember events 💭"))
 async def start_remembering(message: types.Message, dialog_manager: DialogManager) -> None:
-    await dialog_manager.start(state=RememberEvent.event_dates, mode=StartMode.RESET_STACK, data=message.from_user.id)
+    """Starting Remembering_Event-scenario"""
+    await dialog_manager.start(state=RememberEvent.choose_state, mode=StartMode.RESET_STACK, data=message.from_user.id)
+
+
+async def choose_to_all_dates(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                              *args) -> None:
+    await dialog_manager.dialog().switch_to(RememberEvent.all_event_dates)
+
+
+async def choose_to_state_dates(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                                *args) -> None:
+    state = callback.data.lstrip("fetch_")
+    dialog_manager.current_context().dialog_data["state"] = state
+    await dialog_manager.dialog().switch_to(RememberEvent.by_state_event_dates)
 
 
 async def dates_to_the_event(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
-                         *args) -> None:
-    await dialog_manager.dialog().next()
+                             *args) -> None:
+    """
 
+    """
+    event_date = callback.data.lstrip("event_dates_kb:")
+    dialog_manager.current_context().dialog_data["event_date"] = event_date
 
-# async def number_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
-#     night_widget = dialog_manager.dialog().find("day_num_input")
-#     try:
-#         user_number = int(night_widget.get_value())
-#         with BotDB() as db:
-#             day_info = db.get_day_info(user_id=message.from_user.id, number=user_number)
-#
-#         await message.answer(text=day_info)
-#     except ValueError:
-#         print("Не вышло ='(")
-#
-#     await dialog_manager.done()
+    # print(event_date)
+    # print(dialog_manager.current_context().dialog_data["date"])
 
-
-
-
-
+    await dialog_manager.dialog().switch_to(RememberEvent.the_event)
 

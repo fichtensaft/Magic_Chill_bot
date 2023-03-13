@@ -54,15 +54,30 @@ class BotDB:
         else:
             return 1
 
-    # test_zone
     def get_dates(self, user_id):
         sql_req = """SELECT date FROM events WHERE user_id=(?)"""
         self.execute(sql_req, (user_id, ))
         all_dates = self.cur.fetchall()
         return all_dates
 
-    def get_day_info(self, user_id, number):
-        sql_req = """SELECT * FROM events WHERE user_id=(?) AND number=(?)"""
-        self.execute(sql_req, (user_id, number))
-        day_info = self.cur.fetchone()
-        return day_info
+    def get_dates_by_states(self, user_id, state):
+        sql_req = """SELECT date FROM events WHERE user_id=(?) AND state=(?)"""
+        self.execute(sql_req, (user_id, state))
+        all_dates_by_state = self.cur.fetchall()
+        return all_dates_by_state
+
+    def get_event_by_day(self, user_id, date):
+        sql_req = """SELECT number, date, state, people, places, memes FROM events WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req, (user_id, date))
+        the_event = self.cur.fetchone()
+        return the_event
+
+    # test_zone
+
+    # Test func to choose by number of event (should save it for later, can include to statistics...may be):
+
+    # def get_day_info(self, user_id, number):
+    #     sql_req = """SELECT * FROM events WHERE user_id=(?) AND number=(?)"""
+    #     self.execute(sql_req, (user_id, number))
+    #     day_info = self.cur.fetchone()
+    #     return day_info

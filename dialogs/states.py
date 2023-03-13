@@ -20,5 +20,7 @@ class MemorizeEvent(StatesGroup):
 
 
 class RememberEvent(StatesGroup):
-    event_dates = State()
+    choose_state = State()
+    by_state_event_dates = State()
+    all_event_dates = State()
     the_event = State()

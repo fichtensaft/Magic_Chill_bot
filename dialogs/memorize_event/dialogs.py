@@ -50,7 +50,6 @@ date_input_window = Window(
 """
 Window for the 'Places' part of Memo-dialog
 """
-
 places_kb = Select(
     Format("{item[0]}"),
     id="places_kb",
