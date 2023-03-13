@@ -76,7 +76,7 @@ class BotDB:
 
     # Test func to choose by number of event (should save it for later, can include to statistics...may be):
 
-    # def get_day_info(self, user_id, number):
+    # def get_day_info_by_num(self, user_id, number):
     #     sql_req = """SELECT * FROM events WHERE user_id=(?) AND number=(?)"""
     #     self.execute(sql_req, (user_id, number))
     #     day_info = self.cur.fetchone()

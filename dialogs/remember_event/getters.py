@@ -5,6 +5,11 @@ from database.bot_db import BotDB
 
 
 async def dates_getter(dialog_manager: DialogManager, **kwargs) -> dict:
+    """
+    from .dialog_data passing the state (was written in handler) - so we can fetch the dates according to the state
+    from DataBase
+    :return: dict -> all event dates
+    """
     dates_list = []
     if dialog_manager.current_context().dialog_data["state"] != "both":
         with BotDB() as db:
@@ -27,6 +32,10 @@ async def dates_getter(dialog_manager: DialogManager, **kwargs) -> dict:
 
 
 async def event_info_getter(dialog_manager: DialogManager, **kwargs) -> dict:
+    """
+    from .dialog_data returns the exact date of the event. After that the func fetches info on that day from DataBase
+    :return: dict -> all info on the event day
+    """
     with BotDB() as db:
         event_info = db.get_event_by_day(user_id=dialog_manager.current_context().start_data,
                                          date=dialog_manager.current_context().dialog_data["event_date"])

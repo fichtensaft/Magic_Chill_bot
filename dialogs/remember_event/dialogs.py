@@ -10,7 +10,7 @@ from dialogs.states import RememberEvent
 from dialogs.remember_event import getters
 from dialogs.remember_event import handlers
 
-#bruh
+
 """
 Window to choose which state we're looking into
 """
@@ -38,11 +38,9 @@ choose_state_window = Window(
     state=RememberEvent.choose_state
 )
 
-
 """
-Window to show all event days - regardless of the state
+Window to show event days. With pre-made choice (past window) of state  
 """
-
 all_event_dates_window = Window(
     Const("Choose the day to remember:"),
     ScrollingGroup(
@@ -73,7 +71,6 @@ the_event_window = Window(
     getter=getters.event_info_getter
 
 )
-
 
 """Registration of the Remember-Dialog windows"""
 remembering_windows = [

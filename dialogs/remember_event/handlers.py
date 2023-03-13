@@ -18,6 +18,8 @@ async def start_remembering(message: types.Message, dialog_manager: DialogManage
 
 async def choose_to_dates(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
                           *args) -> None:
+    """Choosing a state we're looking into and passing a callback date to getter, so we can get the exact event days"""
+
     state = callback.data.lstrip("fetch_")
     dialog_manager.current_context().dialog_data["state"] = state
     await dialog_manager.dialog().switch_to(RememberEvent.event_dates)
@@ -26,12 +28,9 @@ async def choose_to_dates(callback: types.CallbackQuery, button: Button, dialog_
 async def dates_to_the_event(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
                              *args) -> None:
     """
-
+    Choosing an event-date so we can pass a data to the getter and fetch info about the event
     """
     event_date = callback.data.lstrip("event_dates_kb:")
     dialog_manager.current_context().dialog_data["event_date"] = event_date
-
-    # print(event_date)
-    # print(dialog_manager.current_context().dialog_data["date"])
 
     await dialog_manager.dialog().switch_to(RememberEvent.the_event)
