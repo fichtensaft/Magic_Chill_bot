@@ -10,7 +10,7 @@ from dialogs.states import RememberEvent
 from dialogs.remember_event import getters
 from dialogs.remember_event import handlers
 
-
+#bruh
 """
 Window to choose which state we're looking into
 """
