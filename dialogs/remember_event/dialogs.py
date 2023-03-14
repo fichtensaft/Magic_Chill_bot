@@ -1,7 +1,9 @@
 import operator
 
+from aiogram.types import ParseMode
+
 from aiogram_dialog import Window, Dialog
-from aiogram_dialog.widgets.kbd import Button, Column, Group, Select, Multiselect, ScrollingGroup
+from aiogram_dialog.widgets.kbd import Button, Column, Group, Select, Multiselect, ScrollingGroup, Row
 from aiogram_dialog.widgets.text import Const, Format, Jinja
 from aiogram_dialog.widgets.input import TextInput
 
@@ -10,7 +12,7 @@ from dialogs.states import RememberEvent
 from dialogs.remember_event import getters
 from dialogs.remember_event import handlers
 
-#bruh
+
 """
 Window to choose which state we're looking into
 """
@@ -38,11 +40,9 @@ choose_state_window = Window(
     state=RememberEvent.choose_state
 )
 
-
 """
-Window to show all event days - regardless of the state
+Window to show event days. With pre-made choice (past window) of state  
 """
-
 all_event_dates_window = Window(
     Const("Choose the day to remember:"),
     ScrollingGroup(
@@ -65,21 +65,100 @@ all_event_dates_window = Window(
 """
 Window to look into the exact event
 """
-
 the_event_window = Window(
-    Format("Hello, brother - {event_info}"),
-    # Const("Bubba"),
+    Format(
+        "<b>Number of event</b>: {event_info[0]}\n"
+        "<b>Date</b>: {event_info[1]}\n"
+        "<b>State</b>: {event_info[2]}\n"
+        "<b>Place</b>: {event_info[4]}\n"
+        "<b>People</b>: {event_info[3]}\n"
+        "<b>Memes</b>:\n"
+        "{event_info[5]}"
+    ),
+    Column(
+        Button(
+            Const("Change event info 📝"),
+            id="but_change_event",
+            on_click=handlers.event_to_change
+        ),
+        Button(
+            Const("Back to the dates ⬅️"),
+            id="but_event_to_dates",
+            on_click=handlers.the_event_to_dates
+        ),
+        Button(
+            Const("Enough, thx 👌"),
+            id="event_to_end",
+            on_click=handlers.dialog_done
+        )
+    ),
     state=RememberEvent.the_event,
-    getter=getters.event_info_getter
+    getter=getters.event_info_getter,
+    parse_mode=ParseMode.HTML
 
 )
 
+"""
+Window to change the event info
+"""
+change_event_window = Window(
+    Const("What part do you want to change?"),
+    Row(
+        Button(
+            Const("New memes! 😎"),
+            id="new_memes_but",
+            on_click=handlers.change_to_new_memes
+        ),
+        Button(
+            Const("Delete the event 💀"),
+            id="delete_event_but",
+            on_click=handlers.change_to_assure_delete
+        )
+    ),
+    state=RememberEvent.change_event,
+    getter=getters.change_event_getter
+)
+
+"""
+Window to input memes
+"""
+change_memes_window = Window(
+    Const("What memes are we talking about?"),
+    TextInput(
+        id="change_memes_input",
+        on_success=handlers.change_memes_success
+    ),
+    state=RememberEvent.memes_input
+)
+
+"""
+Window to assure the deletion of the event 
+"""
+assure_delete_window = Window(
+    Const("Are you sure?"),
+    Row(
+        Button(
+            Const("Yes ✅"),
+            id="sure_yes_but",
+            on_click=handlers.delete_event
+        ),
+        Button(
+            Const("No ❌"),
+            id="sure_no_but",
+            on_click=handlers.to_dates
+        )
+    ),
+    state=RememberEvent.event_delete_assure
+)
 
 """Registration of the Remember-Dialog windows"""
 remembering_windows = [
     choose_state_window,
     all_event_dates_window,
-    the_event_window
+    the_event_window,
+    change_event_window,
+    change_memes_window,
+    assure_delete_window
 ]
 event_dates_dialog = Dialog(*remembering_windows)
 registry.register(event_dates_dialog)

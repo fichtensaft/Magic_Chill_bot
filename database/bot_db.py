@@ -72,11 +72,23 @@ class BotDB:
         the_event = self.cur.fetchone()
         return the_event
 
+    def add_new_memes(self, new_memes, user_id, date):
+        sql_req_fetch = """SELECT memes FROM events WHERE user_id =(?) AND date = (?)"""
+        self.execute(sql_req_fetch, (user_id, date))
+        fetched_memes: str = ''.join(self.cur.fetchone())
+
+        new_and_old_memes = ";\n".join((fetched_memes, new_memes))
+        sql_req = """UPDATE events SET memes = (?) WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req, (new_and_old_memes, user_id, date))
+
     # test_zone
+    def delete_event(self, user_id, date):
+        sql_req = """DELETE FROM events WHERE user_id = (?) and date = (?)"""
+        self.execute(sql_req, (user_id, date))
 
     # Test func to choose by number of event (should save it for later, can include to statistics...may be):
 
-    # def get_day_info(self, user_id, number):
+    # def get_day_info_by_num(self, user_id, number):
     #     sql_req = """SELECT * FROM events WHERE user_id=(?) AND number=(?)"""
     #     self.execute(sql_req, (user_id, number))
     #     day_info = self.cur.fetchone()

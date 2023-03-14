@@ -131,7 +131,7 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
                               db.get_new_event_number(message.from_user.id),
                               *data)
 
-    await message.answer("Как кекно")
+    await message.answer("Как кекно\nВсё запомнил!")
     await dialog_manager.done()
 
 

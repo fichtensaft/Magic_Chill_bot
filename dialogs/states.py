@@ -23,3 +23,8 @@ class RememberEvent(StatesGroup):
     choose_state = State()
     event_dates = State()
     the_event = State()
+
+    change_event = State()
+    memes_input = State()
+
+    event_delete_assure = State()
