@@ -17,13 +17,13 @@ async def places_getter(**kwargs) -> dict:
     :return: dict. The dictionary is a tuple (place - id) -> (items in web-docs)
              Though 'count' can be deleted, it used in web-docs for... counting items. Should leave it this way
     """
-    places = [("Quarry 🦫🪨", "Quarry"),
-              ("Shaman shack 🛖", "Shaman shack"),
-              ("le Garage 🏴‍☠", "le Garage"),
-              ("Po-Lounge ⚙", "Po-Lounge"),
-              ("CyberFactory 🏭", "CyberFactory"),
-              ("Cat Kingdom 🐈🐈‍⬛🐈", "Cat Kingdom"),
-              ("The Forest 🌳", "The Forest"),
+    places = [("Quarry 🦫🪨", "Quarry 🦫🪨"),
+              ("Shaman shack 🛖", "Shaman shack 🛖"),
+              ("le Garage 🏴‍☠", " le Garage 🏴‍☠"),
+              ("Po-Lounge ⚙", "Po-Lounge ⚙"),
+              ("CyberFactory 🏭", "CyberFactory 🏭"),
+              ("Cat Kingdom 🐈🐈‍⬛🐈", "Cat Kingdom 🐈🐈‍⬛🐈"),
+              ("The Forest 🌳", "The Forest 🌳"),
               ]
 
     places_dict = {
@@ -40,18 +40,18 @@ async def get_friends(**kwargs) -> dict:
     :param kwargs: Usually no input
     :return: dict. The dictionary is a tuple (place - id) -> (items in web-docs)
     """
-    friends = [("Иля 🧙‍♂", "Иля"),
-               ("Кирилл 🧑‍🚀️", "Кирилл"),
-               ("Потап 👨‍🏭", "Потап"),
-               ("Лёха 👨‍🌾", "Лёха"),
-               ("Диман 🧑‍🍳", "Диман"),
-               ("Паша 🧛", "Паша"),
-               ("Лёня 👷🏻‍♂️", "Лёня"),
-               ("Миша 👨‍💻", "Миша"),
-               ("Атолл️ 💂‍♂️", "Атолл"),
-               ("Рита 👰‍♀️", "Рита"),
-               ("Варя 🧝‍♀️", "Варя"),
-               ("Настя 🧚‍♀️️", "Настя"),
+    friends = [("Иля 🧙‍♂", "Иля 🧙‍♂"),
+               ("Кирилл 🧑‍🚀️", "Кирилл 🧑‍🚀"),
+               ("Потап 👨‍🏭", "Потап 👨‍🏭"),
+               ("Лёха 👨‍🌾", "Лёха 👨‍🌾"),
+               ("Диман 🧑‍🍳", "Диман 🧑‍🍳"),
+               ("Паша 🧛", "Паша 🧛"),
+               ("Лёня 👷🏻‍♂️", "Лёня 🏻‍♂️"),
+               ("Миша 👨‍💻", "Миша 👨‍💻"),
+               ("Атолл️ 💂‍♂️", "Атолл 💂‍♂"),
+               ("Рита 👰‍♀️", "Рита 👰‍♀"),
+               ("Варя 🧝‍♀️", "Варя 🧝‍♀️"),
+               ("Настя 🧚‍♀️️", "Настя 🧚‍♀️️"),
                ]
 
     out_dict = {

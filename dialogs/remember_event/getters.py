@@ -48,5 +48,14 @@ async def event_info_getter(dialog_manager: DialogManager, **kwargs) -> dict:
         "count": len(event_info)
     }
 
-    print(event_info_dict["event_info"])
     return event_info_dict
+
+
+async def change_event_getter(**kwargs) -> dict:
+    change_dict = {
+        "columns": [("More memes!", "memes"),
+                    ("Delete the event", "delete")
+                    ]
+    }
+
+    return change_dict
