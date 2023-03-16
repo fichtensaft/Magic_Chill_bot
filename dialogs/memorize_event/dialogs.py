@@ -27,6 +27,11 @@ date_window = Window(
             Const("Another day"),
             id="not_today",
             on_click=handlers.next_state
+        ),
+        Button(
+            Const("Stop memorizing"),
+            id="date_cancel_but",
+            on_click=handlers.date_dialog_done
         )
     ),
     getter=getters.date_getter,

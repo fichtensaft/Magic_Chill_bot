@@ -138,3 +138,8 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
 # Transition-handlers
 async def next_state(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
     await dialog_manager.dialog().next()
+
+
+async def date_dialog_done(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
+    await callback.message.answer("Ok, the memorizing process has been aborted\nTo use me again type /start")
+    await dialog_manager.done()
