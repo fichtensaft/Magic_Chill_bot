@@ -3,8 +3,8 @@ import operator
 from aiogram.types import ParseMode
 
 from aiogram_dialog import Window, Dialog
-from aiogram_dialog.widgets.kbd import Button, Column, Group, Select, Multiselect, ScrollingGroup, Row
-from aiogram_dialog.widgets.text import Const, Format, Jinja
+from aiogram_dialog.widgets.kbd import Button, Column, Row, Group, Select, ScrollingGroup
+from aiogram_dialog.widgets.text import Const, Format
 from aiogram_dialog.widgets.input import TextInput
 
 from loader import registry
@@ -58,6 +58,18 @@ all_event_dates_window = Window(
         height=5
 
     ),
+    Row(
+        Button(
+            Const("Back to states ⬅️"),
+            id="event_dates_back_but",
+            on_click=handlers.dialog_back
+        ),
+        Button(
+            Const("Thx, enough 👌"),
+            id="event_dates_done_but",
+            on_click=handlers.dialog_done
+        )
+    ),
     state=RememberEvent.event_dates,
     getter=getters.dates_getter
 )
@@ -103,17 +115,28 @@ Window to change the event info
 """
 change_event_window = Window(
     Const("What part do you want to change?"),
-    Row(
+    Group(
         Button(
             Const("New memes! 😎"),
             id="new_memes_but",
-            on_click=handlers.change_to_new_memes
+            on_click=handlers.change_to_add_memes
+        ),
+        Button(
+            Const("Add people 🤼‍♂️"),
+            id="add_ppl_but",
+            on_click=handlers.change_to_add_ppl
+        ),
+        Button(
+            Const("Add places 🏘"),
+            id="add_places_but",
+            on_click=handlers.change_to_add_places
         ),
         Button(
             Const("Delete the event 💀"),
             id="delete_event_but",
             on_click=handlers.change_to_assure_delete
-        )
+        ),
+        width=2
     ),
     state=RememberEvent.change_event,
     getter=getters.change_event_getter
@@ -122,15 +145,38 @@ change_event_window = Window(
 """
 Window to input memes
 """
-change_memes_window = Window(
+add_memes_window = Window(
     Const("What memes are we talking about?"),
     TextInput(
-        id="change_memes_input",
-        on_success=handlers.change_memes_success
+        id="add_memes_input",
+        on_success=handlers.add_memes_success
     ),
     state=RememberEvent.memes_input
 )
 
+"""
+Window to input people 
+"""
+add_ppl_window = Window(
+    Const("What people are joining the party? 🎉 "),
+    TextInput(
+        id="add_ppl_input",
+        on_success=handlers.add_ppl_success
+    ),
+    state=RememberEvent.ppl_input
+)
+
+"""
+Window to input places 
+"""
+add_places_window = Window(
+    Const("Where else have you been? 🏡"),
+    TextInput(
+        id="add_places_input",
+        on_success=handlers.add_places_success
+    ),
+    state=RememberEvent.places_input
+)
 """
 Window to assure the deletion of the event 
 """
@@ -156,8 +202,11 @@ remembering_windows = [
     choose_state_window,
     all_event_dates_window,
     the_event_window,
+
     change_event_window,
-    change_memes_window,
+    add_memes_window,
+    add_ppl_window,
+    add_places_window,
     assure_delete_window
 ]
 event_dates_dialog = Dialog(*remembering_windows)

@@ -26,5 +26,7 @@ class RememberEvent(StatesGroup):
 
     change_event = State()
     memes_input = State()
+    ppl_input = State()
+    places_input = State()
 
     event_delete_assure = State()

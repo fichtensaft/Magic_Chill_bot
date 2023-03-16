@@ -81,15 +81,25 @@ class BotDB:
         sql_req = """UPDATE events SET memes = (?) WHERE user_id = (?) AND date = (?)"""
         self.execute(sql_req, (new_and_old_memes, user_id, date))
 
-    # test_zone
     def delete_event(self, user_id, date):
         sql_req = """DELETE FROM events WHERE user_id = (?) and date = (?)"""
         self.execute(sql_req, (user_id, date))
 
-    # Test func to choose by number of event (should save it for later, can include to statistics...may be):
+    # test_zone
+    def add_new_ppl(self, new_ppl, user_id, date):
+        sql_req_fetch = """SELECT people FROM events WHERE user_id =(?) AND date = (?)"""
+        self.execute(sql_req_fetch, (user_id, date))
+        fetched_places: str = ''.join(self.cur.fetchone())
 
-    # def get_day_info_by_num(self, user_id, number):
-    #     sql_req = """SELECT * FROM events WHERE user_id=(?) AND number=(?)"""
-    #     self.execute(sql_req, (user_id, number))
-    #     day_info = self.cur.fetchone()
-    #     return day_info
+        new_and_old_ppl = "; ".join((fetched_places, new_ppl))
+        sql_req = """UPDATE events SET people = (?) WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req, (new_and_old_ppl, user_id, date))
+
+    def add_new_places(self, new_places, user_id, date):
+        sql_req_fetch = """SELECT places FROM events WHERE user_id =(?) AND date = (?)"""
+        self.execute(sql_req_fetch, (user_id, date))
+        fetched_places: str = ''.join(self.cur.fetchone())
+
+        new_and_old_places = "; ".join((fetched_places, new_places))
+        sql_req = """UPDATE events SET places = (?) WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req, (new_and_old_places, user_id, date))
