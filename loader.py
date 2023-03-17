@@ -21,6 +21,7 @@ storage = MemoryStorage()
 # Creating a DataBase instance (also created a db via its method) //creating & dropping
 db = BotDB()
 # db.drop_table_events()
+# db.alter_table()
 # db.create_events_table()
 
 # Making the bot-object and his dispatcher

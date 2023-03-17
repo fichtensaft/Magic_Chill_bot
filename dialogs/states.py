@@ -18,6 +18,9 @@ class MemorizeEvent(StatesGroup):
     state = State()
     memes = State()
 
+    photos = State()
+    photos_input = State()
+
 
 class RememberEvent(StatesGroup):
     choose_state = State()

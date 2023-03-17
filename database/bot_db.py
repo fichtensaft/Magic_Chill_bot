@@ -36,6 +36,10 @@ class BotDB:
             )"""
                      )
 
+    def alter_table(self):
+        # For adding 'photos'-blob column
+        self.execute("""ALTER TABLE events ADD COLUMN photos BLOB""")
+
     def drop_table_events(self):
         drop_req = """DROP TABLE events"""
         self.execute(drop_req)

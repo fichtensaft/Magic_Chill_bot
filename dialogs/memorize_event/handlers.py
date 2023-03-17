@@ -132,6 +132,20 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
                               *data)
 
     await message.answer("Как кекно\nВсё запомнил!")
+    await dialog_manager.dialog().next()
+
+
+# The 'photos' part of Memo-dialog handlers
+async def photos_input_got(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
+    await message.answer("Got the photo!")
+    await dialog_manager.done()
+
+
+async def memorizing_photo_end(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                               *args) -> None:
+    """If a user doesn't want to add photos, memorizing scenario is ending"""
+    await callback.message.answer("You can add photos later anyway\n"
+                                  "All in the system, now have a great day and a great life! 🦄")
     await dialog_manager.done()
 
 

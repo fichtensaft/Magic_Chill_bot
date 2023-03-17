@@ -1,9 +1,11 @@
 import operator
 
+from aiogram.types import ContentType
+
 from aiogram_dialog import Window, Dialog
 from aiogram_dialog.widgets.kbd import Button, Column, Group, Select, Multiselect
 from aiogram_dialog.widgets.text import Const, Format
-from aiogram_dialog.widgets.input import TextInput
+from aiogram_dialog.widgets.input import MessageInput, TextInput
 
 from loader import registry
 from dialogs.states import MemorizeEvent
@@ -166,7 +168,7 @@ state_window = Window(
 )
 
 """
-Creating the last - Memes part of Memo-dialog
+Creating the Memes part of Memo-dialog
 """
 memes_window = Window(
     Const("Что по кекам?\n(каждый кек с новой строки, на конце , или ;)"),
@@ -176,6 +178,40 @@ memes_window = Window(
         on_success=handlers.memes_success
     ),
     state=MemorizeEvent.memes
+)
+
+"""
+Creating the part where we ask user if he wants to send a Photo of Memo-dialog
+"""
+photos_window = Window(
+    Const("By the way, do you want to add some photos to the event?"),
+    Column(
+        Button(
+            Const("Yep 📸"),
+            id="photos_yes_but",
+            on_click=handlers.next_state
+        ),
+        Button(
+            Const("Nah 🗿"),
+            id="photos_no_but",
+            on_click=handlers.memorizing_photo_end
+        ),
+
+    ),
+    state=MemorizeEvent.photos
+)
+
+"""
+Creating the last - Photo-input part of Memo-dialog
+"""
+photos_input_window = Window(
+    Const("Send photos that you want to pin to the event 🌄"),
+    MessageInput(
+        func=handlers.photos_input_got,
+        content_types=ContentType.PHOTO
+    ),
+    state=MemorizeEvent.photos_input
+
 )
 
 """
@@ -189,7 +225,9 @@ memorize_windows = [
     friends_window,
     friends_input_window,
     state_window,
-    memes_window
+    memes_window,
+    photos_window,
+    photos_input_window
 ]
 memorize_dialog = Dialog(*memorize_windows)
 registry.register(memorize_dialog)
