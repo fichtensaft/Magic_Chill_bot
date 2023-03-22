@@ -49,6 +49,7 @@ class BotDB:
         VALUES (?, ?, ?, ?, ?, ?, ?)"""
         self.execute(sql_req, args)
 
+
     def get_new_event_number(self, user_id):
         sql_req = """SELECT number FROM events WHERE user_id =(?) ORDER BY number DESC LIMIT 1"""
         self.execute(sql_req, (user_id, ))
@@ -89,7 +90,6 @@ class BotDB:
         sql_req = """DELETE FROM events WHERE user_id = (?) and date = (?)"""
         self.execute(sql_req, (user_id, date))
 
-    # test_zone
     def add_new_ppl(self, new_ppl, user_id, date):
         sql_req_fetch = """SELECT people FROM events WHERE user_id =(?) AND date = (?)"""
         self.execute(sql_req_fetch, (user_id, date))
@@ -107,3 +107,42 @@ class BotDB:
         new_and_old_places = "; ".join((fetched_places, new_places))
         sql_req = """UPDATE events SET places = (?) WHERE user_id = (?) AND date = (?)"""
         self.execute(sql_req, (new_and_old_places, user_id, date))
+
+    # test zone
+
+    def update_photo_column(self, user_id, date, photo_id):
+        sql_req = """UPDATE events SET photos = (?) WHERE user_id = (?) AND date = (?) """
+        self.execute(sql_req, (photo_id, user_id, date))
+
+    # def update_photo_column(self, user_id, date, photo_id):
+    #     sql_req_fetch = """SELECT photos FROM events WHERE user_id =(?) AND date = (?)"""
+    #     self.execute(sql_req_fetch, (user_id, date))
+    #     fetched_photos: str = self.cur.fetchone()
+    #
+    #     if fetched_photos:
+    #         fetched_photos = ', '.join(fetched_photos)
+    #
+    #
+    #     new_and_old_photos = ", ".join((fetched_photos, photo_id))
+    #     sql_req = """UPDATE events SET memes = (?) WHERE user_id = (?) AND date = (?)"""
+    #     self.execute(sql_req, (new_and_old_memes, user_id, date))
+
+    def add_new_photo(self, user_id, date, new_photo_id):
+        sql_req_fetch = """SELECT photos FROM events WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req_fetch, (user_id, date))
+        old_photos = ''.join(self.cur.fetchone())
+
+        new_and_old_photos = ", ".join((old_photos, new_photo_id))
+        sql_req_upd = """UPDATE events SET photos = (?) WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req_upd, (new_and_old_photos, user_id, date))
+
+    def get_photo(self, user_id, date):
+        sql_req = """SELECT photos FROM events WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req, (user_id, date))
+        photo_id = self.cur.fetchone()
+        prep_photo_id = tuple(photo_id[0].split(', '))
+
+        return prep_photo_id
+
+    # def get_photos_id(self, user_id, date):
+    #     sql_req

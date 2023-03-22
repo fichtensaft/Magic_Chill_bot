@@ -184,7 +184,8 @@ memes_window = Window(
 Creating the part where we ask user if he wants to send a Photo of Memo-dialog
 """
 photos_window = Window(
-    Const("By the way, do you want to add some photos to the event?"),
+    Const("By the way\n"
+          "Do you want to pin some photos to the event?"),
     Column(
         Button(
             Const("Yep 📸"),
@@ -194,7 +195,7 @@ photos_window = Window(
         Button(
             Const("Nah 🗿"),
             id="photos_no_but",
-            on_click=handlers.memorizing_photo_end
+            on_click=handlers.memorizing_photo_no
         ),
 
     ),
@@ -202,10 +203,11 @@ photos_window = Window(
 )
 
 """
-Creating the last - Photo-input part of Memo-dialog
+Creating the first-Photo-input part of Memo-dialog
 """
 photos_input_window = Window(
-    Const("Send photos that you want to pin to the event 🌄"),
+    Const("Send only one photo that you want to pin to the event 🌄"
+          "\nIf you want, you can send other photos one by one after that"),
     MessageInput(
         func=handlers.photos_input_got,
         content_types=ContentType.PHOTO
@@ -215,19 +217,60 @@ photos_input_window = Window(
 )
 
 """
+Creating the second-Photo-input part of Memo-dialog -> add more photos in memorizing-scenario
+"""
+more_photos_input_window = Window(
+    Const("Send only one photo that you want to pin to the event 🌄"
+          "\nIf you want, you can send other photos one by one after that"),
+    MessageInput(
+        func=handlers.input_more_photos,
+        content_types=ContentType.PHOTO
+    ),
+    state=MemorizeEvent.add_more_photos
+
+)
+
+
+"""
+Creating the last part - reusable  other photos-input part of Memo-dialog
+"""
+more_photos_window = Window(
+    Const("One more photo? 📷"),
+    Column(
+        Button(
+            Const("Yes, one more 🖼"),
+            id="more_photo_yes_but",
+            on_click=handlers.memorizing_more_photo_yes,
+        ),
+        Button(
+            Const("No, that's all 🔚"),
+            id="more_photo_no_but",
+            on_click=handlers.memorizing_more_photo_no,
+        )
+    ),
+    state=MemorizeEvent.ask_more_photos
+)
+
+"""
 Registration of Memo-dialog
 """
 memorize_windows = [
     date_window,
     date_input_window,
+
     places_window,
     places_input_window,
+
     friends_window,
     friends_input_window,
+
     state_window,
     memes_window,
+
     photos_window,
-    photos_input_window
+    photos_input_window,
+    more_photos_window,
+    more_photos_input_window
 ]
 memorize_dialog = Dialog(*memorize_windows)
 registry.register(memorize_dialog)

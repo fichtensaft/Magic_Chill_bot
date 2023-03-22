@@ -20,6 +20,8 @@ class MemorizeEvent(StatesGroup):
 
     photos = State()
     photos_input = State()
+    ask_more_photos = State()
+    add_more_photos = State()
 
 
 class RememberEvent(StatesGroup):

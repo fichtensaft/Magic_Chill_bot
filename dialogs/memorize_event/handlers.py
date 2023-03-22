@@ -137,15 +137,49 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
 
 # The 'photos' part of Memo-dialog handlers
 async def photos_input_got(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
+    print(message.photo[-1])
+    print(message.photo[0])
+
+    with BotDB() as db:
+        db.update_photo_column(user_id=message.from_user.id,
+                               date=dialog_manager.current_context().dialog_data["date"],
+                               photo_id=message.photo[-1].file_id)
+
     await message.answer("Got the photo!")
-    await dialog_manager.done()
+    await dialog_manager.switch_to(MemorizeEvent.ask_more_photos)
 
 
-async def memorizing_photo_end(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
-                               *args) -> None:
+async def memorizing_photo_no(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                              *args) -> None:
     """If a user doesn't want to add photos, memorizing scenario is ending"""
     await callback.message.answer("You can add photos later anyway\n"
                                   "All in the system, now have a great day and a great life! 🦄")
+    await dialog_manager.done()
+
+
+async def memorizing_more_photo_yes(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                                    *args) -> None:
+    """User agrees to add more photos"""
+    await dialog_manager.dialog().switch_to(MemorizeEvent.add_more_photos)
+
+
+async def input_more_photos(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
+    """User decides to add more photos to the event"""
+
+    with BotDB() as db:
+        db.add_new_photo(user_id=message.from_user.id,
+                         date=dialog_manager.current_context().dialog_data["date"],
+                         new_photo_id=message.photo[-1].file_id)
+
+    await message.answer("Got your new photo")
+    await dialog_manager.switch_to(MemorizeEvent.ask_more_photos)
+
+
+async def memorizing_more_photo_no(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                                   *args) -> None:
+    """User doesn't want to add more photos"""
+    await callback.message.answer("Remember everything now!\n"
+                                  "Have a great day and a great life! 🦄")
     await dialog_manager.done()
 
 

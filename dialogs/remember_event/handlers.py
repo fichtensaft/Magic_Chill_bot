@@ -7,6 +7,7 @@ from aiogram_dialog import DialogManager, StartMode
 from aiogram_dialog.widgets.kbd import Button
 from aiogram_dialog.widgets.input import TextInput
 
+from loader import bot
 from main import dp
 from database.bot_db import BotDB
 from dialogs.states import RememberEvent
@@ -151,4 +152,13 @@ async def delete_event(callback: types.CallbackQuery, button: Button, dialog_man
     await message.delete()
 
 
+async def send_photos(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
+    with BotDB() as db:
+        fetched_photos = db.get_photo(user_id=dialog_manager.current_context().start_data,
+                                date=dialog_manager.current_context().dialog_data["event_date"])
 
+    await callback.message.answer("Take your photos! 🌄")
+    for photo_id in fetched_photos:
+        await callback.message.answer_photo(photo_id)
+    # await callback.message.answer_photo(fetched_photos[0])
+    await dialog_manager.done()

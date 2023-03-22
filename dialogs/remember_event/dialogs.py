@@ -87,7 +87,12 @@ the_event_window = Window(
         "<b>Memes</b>:\n"
         "{event_info[5]}"
     ),
-    Column(
+    Group(
+        Button(
+            Const("Get photos 🌠"),
+            id="get_photos_but",
+            on_click=handlers.send_photos
+        ),
         Button(
             Const("Change event info 📝"),
             id="but_change_event",
@@ -102,7 +107,8 @@ the_event_window = Window(
             Const("Enough, thx 👌"),
             id="event_to_end",
             on_click=handlers.dialog_done
-        )
+        ),
+        width=2
     ),
     state=RememberEvent.the_event,
     getter=getters.event_info_getter,
@@ -196,6 +202,7 @@ assure_delete_window = Window(
     ),
     state=RememberEvent.event_delete_assure
 )
+
 
 """Registration of the Remember-Dialog windows"""
 remembering_windows = [
