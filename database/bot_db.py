@@ -117,7 +117,7 @@ class BotDB:
         self.execute(sql_req_fetch, (user_id, date))
         old_photos = self.cur.fetchone()
 
-        if old_photos:
+        if old_photos[0]:
             old_photos_prepared = ''.join(old_photos)
 
             new_and_old_photos = ", ".join((old_photos_prepared, new_photo_id))
@@ -131,9 +131,8 @@ class BotDB:
         sql_req = """SELECT photos FROM events WHERE user_id = (?) AND date = (?)"""
         self.execute(sql_req, (user_id, date))
         photo_id = self.cur.fetchone()
-        prep_photo_id = tuple(photo_id[0].split(', '))
+        if photo_id[0]:
+            prep_photo_id = tuple(photo_id[0].split(', '))
 
-        return prep_photo_id
+            return prep_photo_id
 
-    # def get_photos_id(self, user_id, date):
-    #     sql_req

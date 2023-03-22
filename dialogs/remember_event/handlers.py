@@ -7,7 +7,6 @@ from aiogram_dialog import DialogManager, StartMode
 from aiogram_dialog.widgets.kbd import Button
 from aiogram_dialog.widgets.input import TextInput
 
-from loader import bot
 from main import dp
 from database.bot_db import BotDB
 from dialogs.states import RememberEvent
@@ -64,7 +63,7 @@ async def dialog_done(callback: types.CallbackQuery, button: Button, dialog_mana
 
 # Changing handlers
 
-# Transtion part
+# Transition part
 async def event_to_change(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
                           *args) -> None:
     """Switching from the event window to changing this event"""
@@ -180,10 +179,19 @@ async def delete_event(callback: types.CallbackQuery, button: Button, dialog_man
 async def send_photos(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
     with BotDB() as db:
         fetched_photos = db.get_photo(user_id=dialog_manager.current_context().start_data,
-                                date=dialog_manager.current_context().dialog_data["event_date"])
+                                      date=dialog_manager.current_context().dialog_data["event_date"])
 
-    await callback.message.answer("Take your photos! 🎞")
-    for photo_id in fetched_photos:
-        await callback.message.answer_photo(photo_id)
+    if fetched_photos:
+        await callback.message.answer("Take your photos! 🎞")
+        for photo_id in fetched_photos:
+            await callback.message.answer_photo(photo_id)
+        await dialog_manager.done()
 
-    await dialog_manager.done()
+    else:
+        no_photo_message = await callback.message.answer("<b>No photo</b> in that event 🤷‍♂\n️"
+                                                         "Wait until message <b>autodeletes</b> ⏳")
+        await sleep(2)
+        await no_photo_message.delete()
+        # await dialog_manager.dialog().switch_to(RememberEvent.the_event)
+
+
