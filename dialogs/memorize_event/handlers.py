@@ -6,7 +6,7 @@ from aiogram.dispatcher.filters import Text
 
 from aiogram_dialog import DialogManager, StartMode
 from aiogram_dialog.widgets.kbd import Button
-from aiogram_dialog.widgets.input import TextInput
+from aiogram_dialog.widgets.input import TextInput, MessageInput
 
 from main import dp
 from database.bot_db import BotDB
@@ -136,10 +136,7 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
 
 
 # The 'photos' part of Memo-dialog handlers
-async def photos_input_got(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
-    print(message.photo[-1])
-    print(message.photo[0])
-
+async def photos_input_got(message: types.Message, enter: MessageInput, dialog_manager: DialogManager, *args) -> None:
     with BotDB() as db:
         db.update_photo_column(user_id=message.from_user.id,
                                date=dialog_manager.current_context().dialog_data["date"],

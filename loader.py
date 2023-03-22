@@ -25,7 +25,7 @@ db = BotDB()
 # db.create_events_table()
 
 # Making the bot-object and his dispatcher
-bot = Bot(token=bot_token)
+bot = Bot(token=bot_token, parse_mode="HTML")
 dp = Dispatcher(bot=bot, storage=storage)
 
 # Creating a register to... register Dialogs for lib: "aiogram-dialog"

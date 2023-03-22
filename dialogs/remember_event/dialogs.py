@@ -1,11 +1,11 @@
 import operator
 
-from aiogram.types import ParseMode
+from aiogram.types import ParseMode, ContentType
 
 from aiogram_dialog import Window, Dialog
 from aiogram_dialog.widgets.kbd import Button, Column, Row, Group, Select, ScrollingGroup
 from aiogram_dialog.widgets.text import Const, Format
-from aiogram_dialog.widgets.input import TextInput
+from aiogram_dialog.widgets.input import TextInput, MessageInput
 
 from loader import registry
 from dialogs.states import RememberEvent
@@ -17,7 +17,7 @@ from dialogs.remember_event import handlers
 Window to choose which state we're looking into
 """
 choose_state_window = Window(
-    Const("Human, what state are we looking for?"),
+    Const("Human, what state are we looking for? 👀"),
     Column(
         Button(
             Const("Sober 🧘‍♀️🌲🪐"),
@@ -128,6 +128,11 @@ change_event_window = Window(
             on_click=handlers.change_to_add_memes
         ),
         Button(
+            Const("New photos! 🎆"),
+            id="new_photos_but",
+            on_click=handlers.change_to_add_photos
+        ),
+        Button(
             Const("Add people 🤼‍♂️"),
             id="add_ppl_but",
             on_click=handlers.change_to_add_ppl
@@ -136,6 +141,11 @@ change_event_window = Window(
             Const("Add places 🏘"),
             id="add_places_but",
             on_click=handlers.change_to_add_places
+        ),
+        Button(
+            Const("Go back ⬅"),
+            id="change_back_but",
+            on_click=handlers.dialog_back
         ),
         Button(
             Const("Delete the event 💀"),
@@ -183,6 +193,41 @@ add_places_window = Window(
     ),
     state=RememberEvent.places_input
 )
+
+"""
+Window to input photos 
+"""
+add_photos_window = Window(
+    Const("Mmm, new photos!"
+          "\nAdd only <b>one</b> photo - you can add more after"),
+    MessageInput(
+        func=handlers.add_photo_success,
+        content_types=ContentType.PHOTO
+    ),
+    state=RememberEvent.photos_input
+)
+
+"""
+Creating the window where the bot asks if user wants to add more pictures to the database 
+"""
+more_photos_window = Window(
+    Const("Some more photos?"),
+    Column(
+        Button(
+            Const("Yep 📸"),
+            id="more_photos_yes_but",
+            on_click=handlers.change_to_add_photos
+        ),
+        Button(
+            Const("Nah 🗿"),
+            id="more_photos_no_but",
+            on_click=handlers.more_photos_to_event
+        ),
+    ),
+    state=RememberEvent.ask_more_photos
+)
+
+
 """
 Window to assure the deletion of the event 
 """
@@ -214,6 +259,10 @@ remembering_windows = [
     add_memes_window,
     add_ppl_window,
     add_places_window,
+
+    add_photos_window,
+    more_photos_window,
+
     assure_delete_window
 ]
 event_dates_dialog = Dialog(*remembering_windows)

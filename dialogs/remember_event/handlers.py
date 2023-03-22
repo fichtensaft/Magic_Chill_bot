@@ -63,6 +63,8 @@ async def dialog_done(callback: types.CallbackQuery, button: Button, dialog_mana
 
 
 # Changing handlers
+
+# Transtion part
 async def event_to_change(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
                           *args) -> None:
     """Switching from the event window to changing this event"""
@@ -85,6 +87,18 @@ async def change_to_add_places(callback: types.CallbackQuery, button: Button, di
     await dialog_manager.dialog().switch_to(RememberEvent.places_input)
 
 
+async def change_to_add_photos(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                               *args) -> None:
+    await dialog_manager.dialog().switch_to(RememberEvent.photos_input)
+
+
+async def more_photos_to_event(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
+                               *args) -> None:
+
+    await dialog_manager.dialog().switch_to(RememberEvent.the_event)
+
+
+# Logic part
 async def add_memes_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
     """Function to add new memes to the already existing ones into the DataBase"""
 
@@ -130,6 +144,17 @@ async def add_places_success(message: types.Message, enter: TextInput, dialog_ma
     await dialog_manager.dialog().switch_to(RememberEvent.the_event)
 
 
+async def add_photo_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
+    """Function to add new photos into the DataBase"""
+    with BotDB() as db:
+        db.add_new_photo(user_id=dialog_manager.current_context().start_data,
+                         date=dialog_manager.current_context().dialog_data["event_date"],
+                         new_photo_id=message.photo[-1].file_id)
+
+    await message.answer("Got that photo!")
+    await dialog_manager.dialog().switch_to(RememberEvent.ask_more_photos)
+
+
 # Event-Delete section
 async def change_to_assure_delete(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
                                   *args) -> None:
@@ -146,9 +171,9 @@ async def delete_event(callback: types.CallbackQuery, button: Button, dialog_man
 
     await dialog_manager.dialog().switch_to(RememberEvent.event_dates)
     message = await callback.message.answer("The event was deleted 🐴"
-                                            "\nThis message will be deleted in 5 seconds"
-                                            "\n Use the dates table to move on")
-    await sleep(5)
+                                            "\nThis message will be deleted in 3 seconds"
+                                            )
+    await sleep(3)
     await message.delete()
 
 
@@ -157,8 +182,8 @@ async def send_photos(callback: types.CallbackQuery, button: Button, dialog_mana
         fetched_photos = db.get_photo(user_id=dialog_manager.current_context().start_data,
                                 date=dialog_manager.current_context().dialog_data["event_date"])
 
-    await callback.message.answer("Take your photos! 🌄")
+    await callback.message.answer("Take your photos! 🎞")
     for photo_id in fetched_photos:
         await callback.message.answer_photo(photo_id)
-    # await callback.message.answer_photo(fetched_photos[0])
+
     await dialog_manager.done()

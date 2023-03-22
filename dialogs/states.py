@@ -34,4 +34,7 @@ class RememberEvent(StatesGroup):
     ppl_input = State()
     places_input = State()
 
+    photos_input = State()
+    ask_more_photos = State()
+
     event_delete_assure = State()

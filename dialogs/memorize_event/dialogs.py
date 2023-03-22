@@ -44,7 +44,7 @@ date_window = Window(
 Window for the inputting your own date 
 """
 date_input_window = Window(
-    Const("Enter the date in the format - 'day month year' (separated by spaces):"),
+    Format("Enter the date in the format - 'day month year' (separated by spaces):"),
     TextInput(
         id="date_input_text",
         type_factory=handlers.date_validation,
@@ -206,8 +206,8 @@ photos_window = Window(
 Creating the first-Photo-input part of Memo-dialog
 """
 photos_input_window = Window(
-    Const("Send only one photo that you want to pin to the event 🌄"
-          "\nIf you want, you can send other photos one by one after that"),
+    Const("Send only <b>one</b> photo that you want to pin to the event 🌄"
+          "\nYou will be given a choice to add more photos one by one after that, if you want"),
     MessageInput(
         func=handlers.photos_input_got,
         content_types=ContentType.PHOTO
@@ -220,8 +220,8 @@ photos_input_window = Window(
 Creating the second-Photo-input part of Memo-dialog -> add more photos in memorizing-scenario
 """
 more_photos_input_window = Window(
-    Const("Send only one photo that you want to pin to the event 🌄"
-          "\nIf you want, you can send other photos one by one after that"),
+    Const("Send only <b>one</b> photo that you want to pin to the event 🌄"
+          "\nCan add others after that"),
     MessageInput(
         func=handlers.input_more_photos,
         content_types=ContentType.PHOTO
@@ -238,7 +238,7 @@ more_photos_window = Window(
     Const("One more photo? 📷"),
     Column(
         Button(
-            Const("Yes, one more 🖼"),
+            Const("Yes, one more 🎇"),
             id="more_photo_yes_but",
             on_click=handlers.memorizing_more_photo_yes,
         ),
