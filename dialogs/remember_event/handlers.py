@@ -150,6 +150,13 @@ async def add_photo_success(message: types.Message, enter: TextInput, dialog_man
                          date=dialog_manager.current_context().dialog_data["event_date"],
                          new_photo_id=message.photo[-1].file_id)
 
+        dir_name = db.get_exact_event_id(user_id=message.from_user.id,
+                                         date=dialog_manager.current_context().dialog_data["event_date"])
+
+    await message.photo[0].download(
+        destination_dir=fr"C:\Me\Coding_Python\Projects\Magic_Chill\photos_backup\{dir_name}"
+    )
+
     await message.answer("Got that photo!")
     await dialog_manager.dialog().switch_to(RememberEvent.ask_more_photos)
 

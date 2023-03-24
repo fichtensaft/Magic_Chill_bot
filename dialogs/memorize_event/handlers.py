@@ -142,6 +142,13 @@ async def photos_input_got(message: types.Message, enter: MessageInput, dialog_m
                                date=dialog_manager.current_context().dialog_data["date"],
                                photo_id=message.photo[-1].file_id)
 
+        dir_name = db.get_exact_event_id(user_id=message.from_user.id,
+                                         date=dialog_manager.current_context().dialog_data["date"])
+
+    await message.photo[0].download(
+        destination_dir=fr"C:\Me\Coding_Python\Projects\Magic_Chill\photos_backup\{dir_name}"
+    )
+
     await message.answer("Got the photo!")
     await dialog_manager.switch_to(MemorizeEvent.ask_more_photos)
 
@@ -167,6 +174,13 @@ async def input_more_photos(message: types.Message, enter: TextInput, dialog_man
         db.add_new_photo(user_id=message.from_user.id,
                          date=dialog_manager.current_context().dialog_data["date"],
                          new_photo_id=message.photo[-1].file_id)
+
+        dir_name = db.get_exact_event_id(user_id=message.from_user.id,
+                                         date=dialog_manager.current_context().dialog_data["date"])
+
+    await message.photo[0].download(
+        destination_dir=fr"C:\Me\Coding_Python\Projects\Magic_Chill\photos_backup\{dir_name}"
+    )
 
     await message.answer("Got your new photo")
     await dialog_manager.switch_to(MemorizeEvent.ask_more_photos)

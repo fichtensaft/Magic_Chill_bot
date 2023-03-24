@@ -49,7 +49,6 @@ class BotDB:
         VALUES (?, ?, ?, ?, ?, ?, ?)"""
         self.execute(sql_req, args)
 
-
     def get_new_event_number(self, user_id):
         sql_req = """SELECT number FROM events WHERE user_id =(?) ORDER BY number DESC LIMIT 1"""
         self.execute(sql_req, (user_id, ))
@@ -58,6 +57,12 @@ class BotDB:
             return result[0] + 1
         else:
             return 1
+
+    def get_exact_event_id(self, user_id, date):
+        sql_req = """SELECT event_id FROM events WHERE user_id = (?) AND date = (?)"""
+        self.execute(sql_req, (user_id, date))
+        event_id = self.cur.fetchone()[0]
+        return event_id
 
     def get_dates(self, user_id):
         sql_req = """SELECT date FROM events WHERE user_id=(?)"""
