@@ -146,7 +146,7 @@ async def photos_input_got(message: types.Message, enter: MessageInput, dialog_m
                                          date=dialog_manager.current_context().dialog_data["date"])
 
     await message.photo[0].download(
-        destination_dir=fr"C:\Me\Coding_Python\Projects\Magic_Chill\photos_backup\{dir_name}"
+        destination_dir=fr"root\magic_chill\photos_backup\{dir_name}"
     )
 
     await message.answer("Got the photo!")
@@ -179,7 +179,7 @@ async def input_more_photos(message: types.Message, enter: TextInput, dialog_man
                                          date=dialog_manager.current_context().dialog_data["date"])
 
     await message.photo[0].download(
-        destination_dir=fr"C:\Me\Coding_Python\Projects\Magic_Chill\photos_backup\{dir_name}"
+        destination_dir=fr"root\magic_chill\photos_backup\{dir_name}"
     )
 
     await message.answer("Got your new photo")

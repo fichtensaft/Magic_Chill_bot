@@ -154,7 +154,7 @@ async def add_photo_success(message: types.Message, enter: TextInput, dialog_man
                                          date=dialog_manager.current_context().dialog_data["event_date"])
 
     await message.photo[0].download(
-        destination_dir=fr"C:\Me\Coding_Python\Projects\Magic_Chill\photos_backup\{dir_name}"
+        destination_dir=fr"root\magic_chill\photos_backup\{dir_name}"
     )
 
     await message.answer("Got that photo!")

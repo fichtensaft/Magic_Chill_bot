@@ -2,7 +2,7 @@ import sqlite3 as sq
 
 
 class BotDB:
-    __DB_NAME = r"C:\Me\Coding_Python\Projects\Magic_Chill\database\chill_base.db"
+    __DB_NAME = r"/root/magic_chill/database/chill_base.db"
 
     def __init__(self):
         self.conn = sq.connect(self.__DB_NAME)
