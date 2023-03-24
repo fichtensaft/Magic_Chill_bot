@@ -10,11 +10,6 @@ from database.bot_db import BotDB
 from config import TOKEN
 
 
-# Getting a bot_token from env_variables
-bot_token = getenv("BOT_TOKEN")
-if not bot_token:
-    exit("Error: no token provided")
-
 # Creating a memory storage to use in the bot (in the dispatcher)
 # Right now only for RAM
 storage = MemoryStorage()
