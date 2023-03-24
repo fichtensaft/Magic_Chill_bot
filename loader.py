@@ -7,6 +7,7 @@ from os import getenv
 from sys import exit
 
 from database.bot_db import BotDB
+from config import TOKEN
 
 
 # Getting a bot_token from env_variables
@@ -25,7 +26,7 @@ db = BotDB()
 # db.create_events_table()
 
 # Making the bot-object and his dispatcher
-bot = Bot(token=bot_token, parse_mode="HTML")
+bot = Bot(token=TOKEN, parse_mode="HTML")
 dp = Dispatcher(bot=bot, storage=storage)
 
 # Creating a register to... register Dialogs for lib: "aiogram-dialog"
