@@ -30,7 +30,7 @@ async def choose_to_dates(callback: types.CallbackQuery, button: Button, dialog_
 async def dates_to_the_event(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager,
                              *args) -> None:
     """
-    Choosing an event-date so we can pass a data to the getter and fetch info about the event
+    Choosing an event-date, so we can pass a data to the getter and fetch info about the event
     """
     event_date = callback.data.lstrip("event_dates_kb:")
     dialog_manager.current_context().dialog_data["event_date"] = event_date
@@ -184,6 +184,7 @@ async def delete_event(callback: types.CallbackQuery, button: Button, dialog_man
 
 
 async def send_photos(callback: types.CallbackQuery, button: Button, dialog_manager: DialogManager, *args) -> None:
+    """Function to get memorized boto frome the bot (from its database)"""
     with BotDB() as db:
         fetched_photos = db.get_photo(user_id=dialog_manager.current_context().start_data,
                                       date=dialog_manager.current_context().dialog_data["event_date"])
@@ -200,5 +201,3 @@ async def send_photos(callback: types.CallbackQuery, button: Button, dialog_mana
         await sleep(2)
         await no_photo_message.delete()
         # await dialog_manager.dialog().switch_to(RememberEvent.the_event)
-
-
