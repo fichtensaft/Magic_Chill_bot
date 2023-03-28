@@ -115,7 +115,7 @@ async def state_to_memes(callback: types.CallbackQuery, button: Button, dialog_m
 
 # The 'memes' part of Memo-dialog handlers
 async def memes_success(message: types.Message, enter: TextInput, dialog_manager: DialogManager, *args) -> None:
-    """Input of memes of the event from user"""
+    """Input of memes of the event from user - and saving theme to the database"""
 
     memes_widget = dialog_manager.dialog().find("memes_input_text")  # Getting data from user's input
     memes_data = memes_widget.get_value()
@@ -137,6 +137,7 @@ async def memes_success(message: types.Message, enter: TextInput, dialog_manager
 
 # The 'photos' part of Memo-dialog handlers
 async def photos_input_got(message: types.Message, enter: MessageInput, dialog_manager: DialogManager, *args) -> None:
+    """Input of photos from user and saving them into the database"""
     with BotDB() as db:
         db.update_photo_column(user_id=message.from_user.id,
                                date=dialog_manager.current_context().dialog_data["date"],

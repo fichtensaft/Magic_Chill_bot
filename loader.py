@@ -14,15 +14,11 @@ bot_token = getenv("BOT_TOKEN")
 if not bot_token:
     exit("Error: no token provided")
 
-# Creating a memory storage to use in the bot (in the dispatcher)
-# Right now only for RAM
+# Creating a memory storage to use in the bot (in the dispatcher), in RAM
 storage = MemoryStorage()
 
 # Creating a DataBase instance (also created a db via its method) //creating & dropping
 db = BotDB()
-# db.drop_table_events()
-# db.alter_table()
-# db.create_events_table()
 
 # Making the bot-object and his dispatcher
 bot = Bot(token=bot_token, parse_mode="HTML")

@@ -1,8 +1,9 @@
 import sqlite3 as sq
+from config import DB_PASS
 
 
 class BotDB:
-    __DB_NAME = r"C:\Me\Coding_Python\Projects\Magic_Chill\database\chill_base.db"
+    __DB_NAME = DB_PASS
 
     def __init__(self):
         self.conn = sq.connect(self.__DB_NAME)
